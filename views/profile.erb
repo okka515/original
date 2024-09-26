@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お天気SNS-Profile</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class='profile-container'>
+        <p><img src="/img/<%= @user.icon %>" class="profile-icon"></p>
+        <p><%= @user.name %></p>
+        <p><%= @follow.size %></p>
+    </div>
+    <% @profile.each do |content| %>
+    <div class='contents-container'>
+        <img src='/img/<%= content.user.icon %>'>
+        <h2 class="post-username"><%= content.user.name %></h2>
+        <h3><%= content.content %></h3>
+        <% if content.picture %>
+          <img src="/img/<%= content.picture %>" class="post-picture">
+        <% end %>
+        <p><%= @city %> </p>
+        <p><%= content.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
+    </div>
+    <% end %>
+</body>

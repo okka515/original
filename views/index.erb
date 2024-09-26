@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='/style.css'>
+  <script src="/user_position.js" defer></script>
+  <title>お天気SNS!!!</title>
+</head>
+<body>
+    <h1 id="indextitle">お天気情報</h1>
+    <% if @contents.size != 0 || @contents != nil %>
+    <div class="switch-buttons">
+      <!-- フォロー中のボタン -->
+      <form action="/viewFollow" method="post">
+        <button type="submit" class="<%= @viewGeneral ? '' : 'active' %>">フォロー中</button>
+      </form>
+    
+      <!-- 一般のボタン -->
+      <form action="/viewGeneral" method="post">
+        <button type="submit" class="<%= @viewGeneral ? 'active' : '' %>">一般</button>
+      </form>
+    </div>
+    <% @contents.each do |content| %>
+    <div class="post">
+      <p><strong><%= content.user.name %></strong></p>
+      <p><%= content.content %></p>
+      <img src='/img/<%= content.picture %>'
+      <div class="post-actions">
+        <!-- フォローボタン -->
+        <% unless content.user_id == session[:user_id] %> <!-- 自分以外のユーザーのみ表示 -->
+          <form action='/follow' method="post">
+            <input type="hidden" name="follow_user_id" value="<%= content.user_id %>">
+            <button type="submit" class="follow-button">Follow</button>
+          </form>
+        <% end %>
+  
+        <!-- いいねボタン -->
+        <% if !content.likes.exists?(user_id: session[:user_id]) %> <!-- ユーザーがまだいいねしていない場合 -->
+          <form action='/like' method='POST'>
+            <input type='hidden' name='content_id' value='<%= content.id %>'>
+            <button type='submit' class="like-button">いいね</button>
+          </form>
+        <% else %>
+          <button class="like-button disabled" disabled>いいね済み</button> <!-- いいね済みボタンを無効化 -->
+        <% end %>
+      </div>
+      
+      <p>いいね数: <%= content.likes.count %></p>
+    </div>
+    <% end %>
+    <% else %>
+    <div class='non-content'>
+      <p>投稿はありません!!</p>
+      <p>お天気情報をみんなに共有しよう!!</p>
+    </div>
+    <% end %>
+    <a href='/create_content' class='create_content'>+</a>
+    <script src="/user_position.js"></script>
+</body>
+</html>

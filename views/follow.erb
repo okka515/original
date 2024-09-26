@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お天気SNS-フォロー一覧</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>フォロー中</h1>
+  <div class="follows-list">
+    <% @follows.each do |follow| %>
+      <% follow_user = User.find(follow.follow_user_id) %>
+      <div class="follow-item">
+        <img src="/img/<%= follow_user.icon %>" alt="<%= follow_user.name %>のアイコン" class="follow-icon">
+        <p><%= follow_user.name %></p>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

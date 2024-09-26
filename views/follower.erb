@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お天気SNS-投稿</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <% if @followers != nil %>
+    <% @followers.each do |follower| %>
+      <% follower_user = User.find(follower.user_id) %>
+      <div class='follow-container'>
+        <img src='/img/<%= follower_user.icon %>'>
+        <p><%= follower_user.name %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <h1>フォロワーがいません！悲しい！</h1>
+  <% end %>
+</body>
+</html>

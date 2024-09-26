@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お天気SNS-投稿作成</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="create">
+        <form action='/create_content' method='post' enctype="multipart/form-data">
+            <input type='text' name='content' placeholder='お天気情報を投稿しよう!!!'>
+            <input type='file' name='picture' placeholder='今の天気の様子は?'>
+            <input type='hidden' name='latitude' id='latitude'>
+            <input type='hidden' name='longitude' id='longitude'>
+            <input type='submit' value='投稿'>
+        </form>
+    </div>
+    <script src="/contents_position.js"></script>
+</body>
+</html>

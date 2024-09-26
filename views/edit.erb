@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お天気SNS-編集</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>プロフィール編集</h1>
+  <form action='/edit' method='POST' enctype='multipart/form-data'>
+    <p>新しいアイコン画像</p>
+    <input type="file" name='icon' id="icon">
+    <p>新しい名前</p>
+    <input type="text" name="name" id="name" value="<%= @user.name %>">
+    <input type="submit" value="更新">
+  </form>
+  <a href="/">更新キャンセル</a>
+</body>
