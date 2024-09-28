@@ -24,16 +24,24 @@
     </div>
     <% @contents.each do |content| %>
     <div class="post">
-      <p><strong><%= content.user.name %></strong></p>
-      <p><%= content.content %></p>
-      <img src='/img/<%= content.picture %>'
+      <div class="user-profile">
+        <a href="/profile/<%= content.user.id %>"><img src='/img/<%= content.user.icon %>' alt='ユーザーアイコン'></a>
+        <p><strong><%= content.user.name %></strong></p>
+      </div>
+      <h3><%= content.content %></h3>
+      <% if content.picture != 'default_icon.jpeg' %>
+       <img src='/img/<%= content.picture %>'>
+      <% end %>
       <div class="post-actions">
-        <!-- フォローボタン -->
-        <% unless content.user_id == session[:user_id] %> <!-- 自分以外のユーザーのみ表示 -->
-          <form action='/follow' method="post">
-            <input type="hidden" name="follow_user_id" value="<%= content.user_id %>">
-            <button type="submit" class="follow-button">Follow</button>
-          </form>
+        <% if content.user_id != session[:user_id] %>
+        　<% if !Follow.exists?(user_id: session[:user_id], follow_user_id: content.user.id) %>
+            <form action='/follow' method="post">
+              <input type="hidden" name="follow_user_id" value="<%= content.user_id %>">
+              <button type="submit" class="like-button">フォロー</button>
+            </form>
+          <% else %>
+            <button class="like-button disabled" disabled>フォロー済</button>
+          <% end %>
         <% end %>
   
         <!-- いいねボタン -->
@@ -45,9 +53,8 @@
         <% else %>
           <button class="like-button disabled" disabled>いいね済み</button> <!-- いいね済みボタンを無効化 -->
         <% end %>
+        <h2 class="like-number">いいね数: <%= content.likes.count %></h2>
       </div>
-      
-      <p>いいね数: <%= content.likes.count %></p>
     </div>
     <% end %>
     <% else %>

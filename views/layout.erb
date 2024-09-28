@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <% unless ['signin', 'signup'].include?(request.path_info.split('/')[1]) %>
+    <% if !['signin', 'signup'].include?(request.path_info.split('/')[1]) %>
     <nav>
         <div class="nav-container">
             <a href="/" class="logo">お天気SNS!!</a>
             <ul class="nav-links">
                 <li><a href="/myprofile/growup">植物の様子</a></li>
-                <li><a href="/myprofile/content"><img src="/img/default_icon.jpeg" alt="User Icon"></a></li>
+                <li><a href="/myprofile/content"><img src="/img/<%= @user.icon %>" alt="User Icon"></a></li>
                 <li><p><%= @user.name %></p></li>
                 <li><p>現在地：<%= @city %></p></li>
                 <li><a href="/signout">Signout</a></li>
@@ -20,6 +20,7 @@
         </div>
     </nav>
     <% end %>
+    
     <div class="content">
         <%= yield %>
     </div>

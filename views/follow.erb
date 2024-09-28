@@ -13,8 +13,8 @@
     <% @follows.each do |follow| %>
       <% follow_user = User.find(follow.follow_user_id) %>
       <div class="follow-item">
-        <img src="/img/<%= follow_user.icon %>" alt="<%= follow_user.name %>のアイコン" class="follow-icon">
-        <p><%= follow_user.name %></p>
+        <a href="/profile/<%= follow_user.id %>"><img src="/img/<%= follow_user.icon %>" class="profile-icon"></a>
+        <h1><%= follow_user.name %></h1>
       </div>
     <% end %>
   </div>

@@ -9,14 +9,14 @@
 </head>
 <body>
     <div class='profile-container'>
+        <a href='/edit'>編集する</a>
         <p><img src="/img/<%= @user.icon %>" class="profile-icon"></p>
         <p><%= @user.name %></p>
-        <p><%= @follow.size %></p>
+        <p><a href="/follows/<%= @user.id %>">フォロー：<%= @follows.size %></a></p>
+        <p><a href="/followers/<%= @user.id %>">フォロワー：<%= @followers.size %></a></p>
     </div>
     <% @profile.each do |content| %>
-    <div class='contents-container'>
-        <img src='/img/<%= content.user.icon %>'>
-        <h2 class="post-username"><%= content.user.name %></h2>
+    <div class='post'>
         <h3><%= content.content %></h3>
         <% if content.picture %>
           <img src="/img/<%= content.picture %>" class="post-picture">

@@ -47,6 +47,21 @@ def get_city_name(latitude, longitude)
     end
 end
 
+def levelJudge(totalLike)
+  if 0 <= totalLike && totalLike <= 10
+    return 'himawari_1.PNG'
+  elsif 10 < totalLike && totalLike <= 30
+    return 'himawari_2.PNG'
+  elsif 30 < totalLike && totalLike <= 50
+    return 'himawari_3.PNG'
+  elsif 50 < totalLike && totalLike <= 100
+    return 'himawari_4.PNG'
+  else
+    return 'himawari_5.PNG'
+  end
+end
+
+
 
 #全ての処理の前に実行する処理
 before do
@@ -151,13 +166,22 @@ get '/signout' do
 end
 
 post '/like' do
-    Like.create(user_id: session[:user_id], content_id: params[:content_id])
+    content = Content.find(params[:content_id])
+    unless Like.exists?(user_id: session[:user_id], content_id: content.id)
+        Like.create(user_id: session[:user_id], content_id: params[:content_id])
+    end
+    likenumber = content.likenumber
+    content.update(likenumber: likenumber + 1)
     redirect '/'
 end
 
 #フォロー処理
 post '/follow' do
-    Follow.create(user_id: session[:user_id], follow_user_id: params[:follow_user_id])
+    if session[:user_id] != params[:follow_user_id]
+        unless Follow.exists?(user_id: session[:user_id], follow_user_id: params[:follow_user_id])
+            Follow.create(user_id: session[:user_id], follow_user_id: params[:follow_user_id])
+        end
+    end
     redirect '/'
 end
 
@@ -197,46 +221,27 @@ end
 get '/myprofile/content' do
     @user = User.find(session[:user_id])
     @profile = @user.contents
-    @follow = @user.follows
+    @follows = @user.follows
+    @followers = Follow.where(follow_user_id: @user.id)
     erb :profile
 end
 
 #マイプロフィール画面を表示(植物表示)
 get '/myprofile/growup' do
-    
+    @user = User.find(session[:user_id])
+    totalLike = Like.joins(:content).where(contents: { user_id: @user.id }).count
+    @imgName= levelJudge(totalLike)
+    erb :grow
 end
 
 #id番目の人のプロフィールを表示
 get '/profile/:id' do
     @user = User.find(params[:id])
+    @follows = @user.follows
+    @followers = Follow.where(follow_user_id: @user.id)
+    @profile = @user.contents
     erb :profile
 end
-
-=begin
-post '/create_content' do
-    user = User.find(session[:user_id])
-
-    # 位置情報を Float に変換する
-    latitude = params[:latitude].to_f
-    longitude = params[:longitude].to_f
-
-    # 位置情報が無効な場合はデフォルト値を設定する
-    latitude = nil if latitude.zero?
-    longitude = nil if longitude.zero?
-
-    picture = save_file(params[:picture]) || 'default.jpg'
-
-    user.contents.create(
-        user_id: user.id,
-        content: params[:content],
-        picture: picture,
-        likenumber: 0,
-        latitude: latitude,
-        longitude: longitude
-    )
-    redirect '/'
-end
-=end
 
 #id番目の人のフォロー一覧
 get '/follows/:id' do
@@ -247,7 +252,7 @@ end
 
 #id番目の人のフォロワー一覧
 get '/followers/:id' do
-    @user = User.find(session[:user_id])
+    @user = User.find(params[:id])
     @followers = Follow.where(follow_user_id: @user.id)
     erb :follower
 end
@@ -258,7 +263,10 @@ get '/edit' do
 end
 
 post '/edit' do
-    
+    user = User.find(session[:user_id])
+    icon = save_file(params[:icon])
+    user.update(name: params[:name], icon: icon)
+    redirect '/myprofile/content'
 end
 
 

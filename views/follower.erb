@@ -8,14 +8,17 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <h1>フォロワー</h1>
   <% if @followers != nil %>
+  <div>
     <% @followers.each do |follower| %>
       <% follower_user = User.find(follower.user_id) %>
-      <div class='follow-container'>
-        <img src='/img/<%= follower_user.icon %>'>
-        <p><%= follower_user.name %></p>
+      <div class='follow-item'>
+        <a href="/profile/<%= follower_user.id %>"><img src='/img/<%= follower_user.icon %>' class='profile-icon'></a>
+        <h1><%= follower_user.name %></h1>
       </div>
     <% end %>
+  </div>
   <% else %>
     <h1>フォロワーがいません！悲しい！</h1>
   <% end %>

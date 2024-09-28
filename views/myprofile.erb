@@ -11,14 +11,14 @@
     <div class='profile-container'>
         <p><img src="/img/<%= @user.icon %>" class="profile-icon"></p>
         <p><%= @user.name %></p>
-        <p><%= @follow.size %></p>
+        <p><a href='/follows'>フォロー：<%= @follows.soze %></a></p>
+        <p><a href='/followers'>フォロワー：<%= @followers.size %></a></p>
     </div>
     <div class='contents-container'>
         <% @profile.each do |content| %>
-            <a href='/profile/<%= content.user_id %>' class='post-icon'><img src='/img/<%= content.user.icon %>'></a>
+            <a href='/profile/<%= content.user_id %>' class='profile-icon'><img src='/img/<%= content.user.icon %>' class="profile-icon"></a>
             <h2 class="post-username"><%= content.user.name %></h2>
             <h3><%= content.content %></h3>
-            
             <% if content.picture %>
               <img src="/img/<%= content.picture %>" class="post-picture">
             <% end %>

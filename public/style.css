@@ -76,6 +76,47 @@ nav {
     color: #ddd;
 }
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 20px 20px; /* 上部にパディングを追加してナビゲーションバーに余裕を持たせる */
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    
+}
+
+.profile-icon {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+/* ユーザー名 */
+.profile-container p {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+/* フォローとフォロワーのリンク */
+.profile-container a {
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.profile-container a:hover {
+  text-decoration: underline;
+}
+
 .content {
   width: 100%;
   display: flex;
@@ -219,6 +260,14 @@ a:hover {
   transition: background-color 0.3s, opacity 0.3s; /* 色と透明度のアニメーション */
 }
 
+.myprofile-specific-content {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+
 /* 投稿全体のスタイル */
 .post {
     width: 600px;
@@ -251,20 +300,34 @@ button {
 }
 
 .like-button {
-    background-color: #28a745;
+    background-color: #ff4081; /* より鮮やかなピンク色に変更 */
     color: white;
+    padding: 8px 16px;
+    font-size: 18px; /* ボタンのテキストを大きくする */
+    border: none;
+    border-radius: 25px; /* 角を丸くする */
+    cursor: pointer;
+    width: 180px;
+    height: 50px;
 }
 
-button:hover {
-    opacity: 0.9;
+.like-button:hover {
+    background-color: #e91e63; /* ホバー時の色 */
+    transform: scale(1.05); /* ボタンを少し拡大 */
 }
 
-/* いいね済みボタン */
 button.disabled {
     background-color: #ccc;
     color: #666;
     cursor: not-allowed;
     opacity: 0.6;
+    width: 180px;  /* ボタンの幅を固定 */
+    height: 50px; /* ボタンの高さを固定 */
+    padding: 8px 16px; /* パディングを保持 */
+}
+
+.like-number {
+  margin-left: 50px;
 }
 
 .post img {
@@ -280,9 +343,6 @@ button.disabled {
 .switch-buttons button:hover {
   background-color: #81d4fa; /* ホバー時に色を変える */
 }
-
-
-
 
 .create {
   margin-top: 200px;
@@ -360,6 +420,46 @@ button.disabled {
   height: auto;
 }
 
+.user-profile {
+  display: flex;
+  align-items: left;
+  justify-content: flex-start;
+}
+
+.user-profile img {
+  margin-right: 10px;
+}
+
+.user-profile p {
+  font-size: 35px;
+}
+
 #indextitle {
   padding-top: 30px;
+}
+
+.follow-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.follow-item a {
+  margin-right: 20px; /* アイコンと名前の間に適切なスペースを設定 */
+}
+
+.follow-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.follow-item h1 {
+  margin: 0;
+  font-size: 1.5em;
+  white-space: nowrap; /* 名前が長くても折り返されないようにする */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 長すぎる名前は "..." で省略する */
+  max-width: 200px; /* 名前の最大幅を設定する */
 }
